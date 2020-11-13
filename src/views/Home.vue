@@ -25,7 +25,8 @@
           :tag_name="release.tag_name"
           :html_url="release.html_url"
           :author="release.author"
-          :published_at="release.published_at"/>
+          :published_at="release.published_at"
+          :pre_release="release.prerelease"/>
     </div>
     <div class="pagination">
       <font-awesome-icon 

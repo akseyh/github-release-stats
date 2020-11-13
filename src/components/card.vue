@@ -6,7 +6,12 @@
                 target="_blank">
                 <font-awesome-icon 
                     icon="tag"/>
-                {{tag_name}}
+                <span>{{tag_name}}</span><br/>
+                <span
+                    v-if="pre_release"
+                    style="color: green;">
+                    Pre-Release
+                </span>
             </a>
         </div>
         <div class="header-area">
@@ -62,6 +67,10 @@ export default {
         },
         published_at: {
             default: '',
+            required: true
+        },
+        pre_release: {
+            default: false,
             required: true
         }
     }
