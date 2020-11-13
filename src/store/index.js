@@ -20,7 +20,7 @@ export default new Vuex.Store({
   },
   actions: {
     FETCH_RELEASES({commit}, {userName, repoName}) {
-      Axios.get(`https://api.github.com/repos/${userName}/${repoName}/releases?per_page=10`)
+      Axios.get(`https://api.github.com/repos/${userName}/${repoName}/releases`)
         .then(res => {
           if(res.status !== 200) return
           commit('setReleases', res.data)

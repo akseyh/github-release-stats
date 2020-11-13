@@ -9,28 +9,33 @@
       <span>Repository</span>
       <vs-input 
         placeholder="Repository" 
-        v-model="repoName" />
+        v-model="repoName"
+        v-on:keyup.enter="$refs.fetchReleaseButton.$el.click()"/>
     </div>
     <vs-button
+      ref="fetchReleaseButton"
       @click="$store.dispatch('FETCH_RELEASES', {userName: username, repoName: repoName})"
       class="getButton">
       Get the latest release stats
     </vs-button>
     <div class="container-box">
-      <div
-        :key="release.id"
-        v-for="release in releases"
-        class="box">
-        {{release.tag_name}}
-      </div>
+        <card 
+          :key="release.id"
+          v-for="release in releases"
+          :tag_name="release.tag_name"
+          :html_url="release.html_url"
+          :author="release.author"
+          :published_at="release.published_at"/>
     </div>
   </div>
 </template>
 
 <script>
 import {mapState} from 'vuex'
+import card from '@/components/card'
 export default {
   name: 'Home',
+  components: {card},
   computed: {
     ...mapState([
       'releases',
@@ -40,7 +45,8 @@ export default {
   data() {
     return {
       username: '',
-      repoName: ''
+      repoName: '',
+      page: 1
     }
   }
 }
@@ -71,10 +77,6 @@ export default {
   overflow: hidden;
   border-radius: 10px;
   background: gray;
-  display: flex;
-  flex-direction: row;
-  justify-items: center;
-  align-items: center;
   color: white;
 }
 </style>
