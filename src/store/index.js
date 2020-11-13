@@ -12,15 +12,18 @@ export default new Vuex.Store({
   },
   mutations: {
     setReleases(state, data) {
-      state.releases = data
+      state.releases = [...state.releases, ...data]
     },
     setRepos(state, data) {
       state.repos = data
+    },
+    clearReleases(state) {
+      state.releases = []
     }
   },
   actions: {
-    FETCH_RELEASES({commit}, {userName, repoName}) {
-      Axios.get(`https://api.github.com/repos/${userName}/${repoName}/releases`)
+    FETCH_RELEASES({commit}, {userName, repoName, page, per_page}) {
+      Axios.get(`https://api.github.com/repos/${userName}/${repoName}/releases?page=${page}&per_page=${per_page}`)
         .then(res => {
           if(res.status !== 200) return
           commit('setReleases', res.data)

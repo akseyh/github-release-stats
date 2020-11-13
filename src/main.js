@@ -11,16 +11,22 @@ import {
   faInfo,
   faUser,
   faCalendar,
-  faCode
+  faCode,
+  faAngleLeft,
+  faAngleRight
   
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-library.add(faTag)
-library.add(faInfo)
-library.add(faUser)
-library.add(faCalendar)
-library.add(faCode)
+library.add([
+  faTag,
+  faInfo,
+  faUser,
+  faCalendar,
+  faCode,
+  faAngleLeft,
+  faAngleRight
+])
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 

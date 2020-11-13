@@ -14,18 +14,33 @@
     </div>
     <vs-button
       ref="fetchReleaseButton"
-      @click="$store.dispatch('FETCH_RELEASES', {userName: username, repoName: repoName})"
+      @click="getReleases"
       class="getButton">
       Get the latest release stats
     </vs-button>
     <div class="container-box">
         <card 
-          :key="release.id"
-          v-for="release in releases"
+          :key="index"
+          v-for="(release, index) in computedReleases"
           :tag_name="release.tag_name"
           :html_url="release.html_url"
           :author="release.author"
           :published_at="release.published_at"/>
+    </div>
+    <div class="pagination">
+      <font-awesome-icon 
+        icon="angle-left"
+        style="font-size: 50px;"
+        :style="{color: page === 1 ? '#B0B4B5' : '#2C3E50', cursor: page === 1 ? '' : 'pointer'}"
+        @click="page !== 1 && page--"/>
+        <div style="margin-left: 20px; margin-right: 20px;">
+          {{page}}
+        </div>
+      <font-awesome-icon 
+        icon="angle-right"
+        style="font-size: 50px; cursor: pointer;"
+        :style="{color: computedReleases.length !== per_page ? '#B0B4B5' : '#2C3E50', cursor: computedReleases.length !== per_page ? '' : 'pointer'}"
+        @click="computedReleases.length === per_page && page++"/>
     </div>
   </div>
 </template>
@@ -40,13 +55,37 @@ export default {
     ...mapState([
       'releases',
       'repos'
-    ])
+    ]),
+    computedReleases() {
+      return this.releases.slice((this.page - 1) * this.per_page, ((this.page - 1) * this.per_page) + this.per_page)
+    }
+  },
+  watch: {
+    page(val) {
+      if(this.computedReleases.length < this.per_page) {
+        this.$store.dispatch('FETCH_RELEASES', {userName: this.username, repoName: this.repoName, page: val, per_page: this.per_page})
+      }
+    }
   },
   data() {
     return {
       username: '',
       repoName: '',
-      page: 1
+      page: 1,
+      per_page: 30
+    }
+  },
+  methods: {
+    getReleases() {
+      this.page = 1
+      this.$store.commit('clearReleases')
+      this.$store.dispatch('FETCH_RELEASES', {userName: this.username, repoName: this.repoName, page: this.page, per_page: this.per_page})
+    },
+    getPreviousPage() {
+      console.log()
+    },
+    getNextPage() {
+      if(!this.releases[this.per_page + 1]) console.log('YENİ SAYFA GELİYORR')
     }
   }
 }
@@ -78,5 +117,10 @@ export default {
   border-radius: 10px;
   background: gray;
   color: white;
+}
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>
