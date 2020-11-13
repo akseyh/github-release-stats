@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div style="display: flex; flex-direction: column; align-items: flex-start;">
-      <span>Kullanıcı Adı</span>
+      <span>Username</span>
       <vs-input 
         placeholder="User Name" 
         v-model="username"

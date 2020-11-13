@@ -79,7 +79,6 @@ a {
     padding: 10px;
     width: 250px;
     height: auto;
-    border: 1px solid gray;
     margin: 10px;
     border-radius: 10px;
     background: #CCCFCA;
